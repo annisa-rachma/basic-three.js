@@ -25,6 +25,13 @@ scene.add(mesh)
 // mesh.position.normalize()
 // normalize it value -> ngejadiin mesh jadi 1 
 
+//Axes Helper -> garis axis pembantu
+/**
+const axesHelper = new THREE.AxesHelper()
+scene.add(axesHelper)
+*/
+
+
 //sizes
 const sizes = {
   width : 800,
