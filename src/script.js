@@ -12,6 +12,39 @@ const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
+/**POSITIONING
+ * u can put this position anywhere, ngga tergantung sama peletakan selama masih di atas renderer.render
+ */
+// mesh.position.x = 0.7
+// mesh.position.y = -0.6
+// mesh.position.z = 1
+
+//set method -> to pass each property x,y,z 
+mesh.position.set(0.7,-0.6,1)
+
+/**SCALE */
+// mesh.scale.x = 2
+// mesh.scale.y = 0.5
+// mesh.scale.z = 0.5
+mesh.scale.set(2,0.5,0.5)
+
+/**ROTATION */
+/**
+ * with rotation or with quaternion
+ * updatung one will automatically update the other
+ */
+//A-ROTATION
+
+/**NORMALIZE */
+// mesh.position.normalize()
+// normalize it value -> ngejadiin mesh jadi 1 
+
+/**AXES HELPER */
+//Axes Helper -> garis axis pembantu
+const axesHelper = new THREE.AxesHelper()
+scene.add(axesHelper)
+
+
 //sizes
 const sizes = {
   width : 800,
@@ -24,6 +57,7 @@ const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
 camera.position.z = 3
 scene.add(camera)
 //add camera to scene is optional, but if you dont, it might result in a bug in some situation, better add
+
 
 //renderer
 const renderer = new THREE.WebGLRenderer({
@@ -44,3 +78,4 @@ renderer.render(scene, camera)
  * 
  * position has three poperties : x, y, z
  */
+
