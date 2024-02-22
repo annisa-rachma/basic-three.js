@@ -10,7 +10,20 @@ const scene = new THREE.Scene()
 const geometry = new THREE.BoxGeometry(1, 1, 1)
 const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
 const mesh = new THREE.Mesh(geometry, material)
+/**
+ * u can put this position anywhere, ngga tergantung sama peletakan selama masih di atas renderer.render
+ */
+// mesh.position.x = 0.7
+// mesh.position.y = -0.6
+// mesh.position.z = 1
+
+//set method -> to pass each property x,y,z 
+mesh.position.set(0.7,-0.6,1)
+
 scene.add(mesh)
+
+// mesh.position.normalize()
+// normalize it value -> ngejadiin mesh jadi 1 
 
 //sizes
 const sizes = {
@@ -24,6 +37,8 @@ const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
 camera.position.z = 3
 scene.add(camera)
 //add camera to scene is optional, but if you dont, it might result in a bug in some situation, better add
+
+
 
 //renderer
 const renderer = new THREE.WebGLRenderer({
@@ -44,3 +59,4 @@ renderer.render(scene, camera)
  * 
  * position has three poperties : x, y, z
  */
+
