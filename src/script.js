@@ -113,7 +113,10 @@ const sizes = {
 //camera
 //75 is field of view, like the one in camera, the normal field of view is around 35, the higher the number, the smaller the field of view, the smaller the number, the wider field of view
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
-camera.position.z = 3
+camera.position.x = 2
+camera.position.y = 2
+camera.position.z = 2
+camera.lookAt(mesh.position)
 scene.add(camera)
 //add camera to scene is optional, but if you dont, it might result in a bug in some situation, better add
 
@@ -185,12 +188,12 @@ renderer.setSize(sizes.width, sizes.height)
 // tick()
 
 /**Using Clock */
-//clock is a built in class in three.js
-//it's used to keep track of time
-//it's more accurate than using Date.now()
-//instantiating clock and use its getElapsedTime() method
+// //clock is a built in class in three.js
+// //it's used to keep track of time
+// //it's more accurate than using Date.now()
+// //instantiating clock and use its getElapsedTime() method
 
-//Clock
+// //Clock
 // const clock = new THREE.Clock()
 // const tick = () => {
 //   const elapsedTime = clock.getElapsedTime()
@@ -217,24 +220,44 @@ renderer.setSize(sizes.width, sizes.height)
 
 
 /**Using Library */
-//why using a library?
-//if u want to have more control, like create tweens, or more complex animation, u can use a library like GSAP
+// //why using a library?
+// //if u want to have more control, like create tweens, or more complex animation, u can use a library like GSAP
 
-// console.log(gsap);
+// // console.log(gsap);
 
-gsap.to(mesh.position, {duration: 1, delay: 1, x : 2})
-gsap.to(mesh.position, {duration: 1, delay: 2, x : 0})
+// gsap.to(mesh.position, {duration: 1, delay: 1, x : 2})
+// gsap.to(mesh.position, {duration: 1, delay: 2, x : 0})
 
-//greensock has it's own tick, so the library doing requestAnimationFrame for us
-//but we still need to render it by ourselves
+// //greensock has it's own tick, so the library doing requestAnimationFrame for us
+// //but we still need to render it by ourselves
 
-const tick = () => {
+// const tick = () => {
  
-  //render
+//   //render
+//   renderer.render(scene, camera)
+
+//   window.requestAnimationFrame(tick)
+
+// }
+
+// tick()
+
+
+
+/************************************* */
+/**Cameras */
+const clock = new THREE.Clock()
+const tick = () => {
+  const elapsedTime = clock.getElapsedTime()
+
+  // Update objects
+  mesh.rotation.y = elapsedTime;
+
+  // Render
   renderer.render(scene, camera)
 
+  // Call tick again on the next frame
   window.requestAnimationFrame(tick)
-
 }
 
 tick()
