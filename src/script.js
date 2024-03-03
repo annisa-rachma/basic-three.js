@@ -156,29 +156,60 @@ renderer.setSize(sizes.width, sizes.height)
 //jadi misal buat function, di dalam function itu kita manggil requestAnimationFrame
 
 
-
+/**Using Time */
 //time
-let time = Date.now()
+// let time = Date.now()
 
-const tick = () => {
-  //time
-  const currentTime = Date.now()
-  //to get the current timestamp in milisecond
-  const deltaTime = currentTime - time
-  time = currentTime
-  //why using delta time ?
-  //so that our animation is frame rate independent 
-  //if we use time, the animation will be faster on a faster computer, and slower on a slower computer
+// const tick = () => {
+//   //time
+//   const currentTime = Date.now()
+//   //to get the current timestamp in milisecond
+//   const deltaTime = currentTime - time
+//   time = currentTime
+//   //why using delta time ?
+//   //so that our animation is frame rate independent 
+//   //if we use time, the animation will be faster on a faster computer, and slower on a slower computer
   
+//   //update object
+//   mesh.rotation.y += 0.002 * deltaTime
+
+//   //render
+//   renderer.render(scene, camera)
+
+//   window.requestAnimationFrame(tick)
+
+//   //konsepnya animation di sini adalah: gerakin object -> render -> panggil function ulang ->gerakin object
+// }
+
+// tick()
+
+/**Using Clock */
+//clock is a built in class in three.js
+//it's used to keep track of time
+//it's more accurate than using Date.now()
+//instantiating clock and use its getElapsedTime() method
+
+//Clock
+const clock = new THREE.Clock()
+const tick = () => {
+  const elapsedTime = clock.getElapsedTime()
+  //elapsedTime is the time that has passed since the clock was created
+  //it's in seconds, not in milisecond
+
   //update object
-  mesh.rotation.y += 0.002 * deltaTime
+  camera.position.x = Math.sin(elapsedTime)
+  camera.position.y = Math.cos(elapsedTime)
+  camera.lookAt(mesh.position)
+  //not incrementing it, but setting it to the elapsedTime
+  //pake sin x akan naik turun, sesuai graphic sin 
+  //bisa move camera juga, ngga cuma objectnya
+
 
   //render
   renderer.render(scene, camera)
 
   window.requestAnimationFrame(tick)
 
-  //konsepnya animation di sini adalah: gerakin object -> render -> panggil function ulang ->gerakin object
 }
 
 tick()
