@@ -6,11 +6,12 @@ const canvas = document.querySelector('canvas.webgl')
 //scene
 const scene = new THREE.Scene()
 
+/************************************* */
 //geometry
-const geometry = new THREE.BoxGeometry(1, 1, 1)
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
-const mesh = new THREE.Mesh(geometry, material)
-scene.add(mesh)
+// const geometry = new THREE.BoxGeometry(1, 1, 1)
+// const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+// const mesh = new THREE.Mesh(geometry, material)
+// scene.add(mesh)
 
 /**POSITIONING
  * u can put this position anywhere, ngga tergantung sama peletakan selama masih di atas renderer.render
@@ -20,20 +21,74 @@ scene.add(mesh)
 // mesh.position.z = 1
 
 //set method -> to pass each property x,y,z 
-mesh.position.set(0.7,-0.6,1)
+// mesh.position.set(0.7,-0.6,1)
 
 /**SCALE */
 // mesh.scale.x = 2
 // mesh.scale.y = 0.5
 // mesh.scale.z = 0.5
-mesh.scale.set(2,0.5,0.5)
+// mesh.scale.set(2,0.5,0.5)
 
 /**ROTATION */
 /**
  * with rotation or with quaternion
- * updatung one will automatically update the other
+ * updating one will automatically update the other
  */
-//A-ROTATION
+//A-ROTATION'
+// mesh.rotation.reorder('YXZ')
+// mesh.rotation.x = Math.PI * 0.25
+// mesh.rotation.y = Math.PI * 0.25
+//the value of these axes is expressed in radian
+//hal rotation is something like 3.14.. or use Math.PI
+//be careful when rotate an axis, u might rotate other axis
+//the rotation by default goes in x, y, z order
+//but u can get strange result like an axis not working anymore, it called "gimbal lock"
+//to avoid this u can change the order by using reoder(...) :
+  //object.rotation.reorder('YXZ')
+  //do it before changing the rotation value
+
+/**QUARTENION */
+//quartenion also express rotation, but in a more mathematical way
+//when u update quartenion it'll update the rotation, and vice versa
+
+//you can combine transformation(position, rotation, scale) in any order
+
+/**SCENE GRAPH */
+//you can put object inside groups and use position, rotation, and scale on those
+//so u can move the whole group
+//to do that, use Group class
+
+/************************************* */
+
+//create group
+const group = new THREE.Group()
+group.position.y = 1
+group.scale.y = 2
+group.rotation.y = 1
+//add group to the scene
+scene.add(group)
+
+//create object
+const cube1 = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial({ color: 0xff0000 })
+)
+//add object to the group
+group.add(cube1)
+
+const cube2 = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+)
+cube2.position.x = -2
+group.add(cube2)
+
+const cube3 = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial({ color: 0x0000ff })
+)
+cube3.position.x = 2
+group.add(cube3)
 
 /**NORMALIZE */
 // mesh.position.normalize()
@@ -57,6 +112,12 @@ const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
 camera.position.z = 3
 scene.add(camera)
 //add camera to scene is optional, but if you dont, it might result in a bug in some situation, better add
+
+
+/**LookAt */
+//Object33D instance has a method called lookAt, it'll make the object look at a certain position
+//the target must be a vector3
+// camera.lookAt(mesh.position)
 
 
 //renderer
