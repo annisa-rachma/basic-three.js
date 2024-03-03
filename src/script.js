@@ -8,10 +8,10 @@ const scene = new THREE.Scene()
 
 /************************************* */
 //geometry
-// const geometry = new THREE.BoxGeometry(1, 1, 1)
-// const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
-// const mesh = new THREE.Mesh(geometry, material)
-// scene.add(mesh)
+const geometry = new THREE.BoxGeometry(1, 1, 1)
+const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+const mesh = new THREE.Mesh(geometry, material)
+scene.add(mesh)
 
 /**POSITIONING
  * u can put this position anywhere, ngga tergantung sama peletakan selama masih di atas renderer.render
@@ -60,35 +60,38 @@ const scene = new THREE.Scene()
 
 /************************************* */
 
-//create group
-const group = new THREE.Group()
-group.position.y = 1
-group.scale.y = 2
-group.rotation.y = 1
-//add group to the scene
-scene.add(group)
+/***********GROUP************************** */
+// const group = new THREE.Group()
+// group.position.y = 1
+// group.scale.y = 2
+// group.rotation.y = 1
+// //add group to the scene
+// scene.add(group)
 
-//create object
-const cube1 = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
-  new THREE.MeshBasicMaterial({ color: 0xff0000 })
-)
-//add object to the group
-group.add(cube1)
+// //create object
+// const cube1 = new THREE.Mesh(
+//   new THREE.BoxGeometry(1, 1, 1),
+//   new THREE.MeshBasicMaterial({ color: 0xff0000 })
+// )
+// //add object to the group
+// group.add(cube1)
 
-const cube2 = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
-  new THREE.MeshBasicMaterial({ color: 0x00ff00 })
-)
-cube2.position.x = -2
-group.add(cube2)
+// const cube2 = new THREE.Mesh(
+//   new THREE.BoxGeometry(1, 1, 1),
+//   new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+// )
+// cube2.position.x = -2
+// group.add(cube2)
 
-const cube3 = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
-  new THREE.MeshBasicMaterial({ color: 0x0000ff })
-)
-cube3.position.x = 2
-group.add(cube3)
+// const cube3 = new THREE.Mesh(
+//   new THREE.BoxGeometry(1, 1, 1),
+//   new THREE.MeshBasicMaterial({ color: 0x0000ff })
+// )
+// cube3.position.x = 2
+// group.add(cube3)
+
+/************************************* */
+
 
 /**NORMALIZE */
 // mesh.position.normalize()
@@ -126,7 +129,8 @@ const renderer = new THREE.WebGLRenderer({
 })
 renderer.setSize(sizes.width, sizes.height)
 
-renderer.render(scene, camera)
+// renderer.render(scene, camera)
+
 /**
  * at first, it was all pitch black, why?
  * because at start, the object, and the camera are put on position 0,0,0
@@ -140,3 +144,41 @@ renderer.render(scene, camera)
  * position has three poperties : x, y, z
  */
 
+
+/************************************* */
+/**Animation */
+//animating is like doing stop motion 
+//move the object, take a picture, move the object, take a picture, and so on
+//most scene run at 60FPS(frame per second)
+//we need to update object and do render on each frame
+//can be don in a function, and call the function with window.requestAnimationFrame(...)
+//the purpose of requestAnimationFrame is to call the function on the next frame
+//jadi misal buat function, di dalam function itu kita manggil requestAnimationFrame
+
+
+
+//time
+let time = Date.now()
+
+const tick = () => {
+  //time
+  const currentTime = Date.now()
+  //to get the current timestamp in milisecond
+  const deltaTime = currentTime - time
+  time = currentTime
+  //why using delta time ?
+  //so that our animation is frame rate independent 
+  //if we use time, the animation will be faster on a faster computer, and slower on a slower computer
+  
+  //update object
+  mesh.rotation.y += 0.002 * deltaTime
+
+  //render
+  renderer.render(scene, camera)
+
+  window.requestAnimationFrame(tick)
+
+  //konsepnya animation di sini adalah: gerakin object -> render -> panggil function ulang ->gerakin object
+}
+
+tick()
