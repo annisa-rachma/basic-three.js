@@ -1,5 +1,6 @@
 import * as THREE from 'three'
-
+import './style.css'
+import gsap from 'gsap'
 //canvas
 const canvas = document.querySelector('canvas.webgl')
 
@@ -190,21 +191,45 @@ renderer.setSize(sizes.width, sizes.height)
 //instantiating clock and use its getElapsedTime() method
 
 //Clock
-const clock = new THREE.Clock()
+// const clock = new THREE.Clock()
+// const tick = () => {
+//   const elapsedTime = clock.getElapsedTime()
+//   //elapsedTime is the time that has passed since the clock was created
+//   //it's in seconds, not in milisecond
+
+//   //update object
+//   camera.position.x = Math.sin(elapsedTime)
+//   camera.position.y = Math.cos(elapsedTime)
+//   camera.lookAt(mesh.position)
+//   //not incrementing it, but setting it to the elapsedTime
+//   //pake sin x akan naik turun, sesuai graphic sin 
+//   //bisa move camera juga, ngga cuma objectnya
+
+
+//   //render
+//   renderer.render(scene, camera)
+
+//   window.requestAnimationFrame(tick)
+
+// }
+
+// tick()
+
+
+/**Using Library */
+//why using a library?
+//if u want to have more control, like create tweens, or more complex animation, u can use a library like GSAP
+
+// console.log(gsap);
+
+gsap.to(mesh.position, {duration: 1, delay: 1, x : 2})
+gsap.to(mesh.position, {duration: 1, delay: 2, x : 0})
+
+//greensock has it's own tick, so the library doing requestAnimationFrame for us
+//but we still need to render it by ourselves
+
 const tick = () => {
-  const elapsedTime = clock.getElapsedTime()
-  //elapsedTime is the time that has passed since the clock was created
-  //it's in seconds, not in milisecond
-
-  //update object
-  camera.position.x = Math.sin(elapsedTime)
-  camera.position.y = Math.cos(elapsedTime)
-  camera.lookAt(mesh.position)
-  //not incrementing it, but setting it to the elapsedTime
-  //pake sin x akan naik turun, sesuai graphic sin 
-  //bisa move camera juga, ngga cuma objectnya
-
-
+ 
   //render
   renderer.render(scene, camera)
 
