@@ -1,6 +1,24 @@
 import * as THREE from 'three'
 import './style.css'
 import gsap from 'gsap'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+
+//cursor
+//get coordinate from the mouse
+const cursor = {
+  x : 0,
+  y: 0
+}
+window.addEventListener('mousemove', (event) => {
+  //if it's just like this, the coordinate will go too far outside the canvas
+  // console.log(event.clientY);
+  //to make the value from 0 to 1, we can divide it by the width size
+  //add - 0.5 to create a negative and positive num
+  cursor.x = event.clientX / sizes.width - 0.5
+  cursor.y = -(event.clientY / sizes.height - 0.5)
+  //the y axis must be negated because the cursor.y is positive when going down, while the three.js y is positive when going up
+})
+
 //canvas
 const canvas = document.querySelector('canvas.webgl')
 
@@ -112,14 +130,68 @@ const sizes = {
 
 //camera
 //75 is field of view, like the one in camera, the normal field of view is around 35, the higher the number, the smaller the field of view, the smaller the number, the wider field of view
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
-camera.position.x = 2
-camera.position.y = 2
-camera.position.z = 2
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+// const aspectRatio = sizes.width / sizes.height
+// const camera = new THREE.OrthographicCamera(
+//   -1 *aspectRatio, 
+//   1*aspectRatio, 
+//   1, 
+//   -1, 
+//   0.1, 
+//   100)
+// camera.position.x = 2
+// camera.position.y = 2
+camera.position.z = 3
 camera.lookAt(mesh.position)
 scene.add(camera)
 //add camera to scene is optional, but if you dont, it might result in a bug in some situation, better add
 
+//Controls
+const controls = new OrbitControls(camera, canvas)
+//canvas is the dom element where the renderer is rendering, where the mouse event is happening
+//Target
+//by default, the camera is looking at the center of the scene, we can change the target by using the target property
+// controls.target.y = 2
+// controls.update()
+
+/**Damping */
+//the damping will smooth the animation by adding some kind of acceleration and friction
+// to enable damping, swith the property enableDamping to true
+controls.enableDamping =  true
+
+
+/************************************* */
+/**Cameras */
+//camera is an abstract class
+//you're not supposed to use it directly
+//A- Array Camera
+//it render the scene from multiple cameras on specific areas of the render
+
+//B-Stereo Camera
+//render the scene from two cameras, one for each eye, for VR
+
+//C-Cube Camera
+//do 6 renders, each one for each face of a cube, for reflection mapping
+//can render the surrounding for things like environment mapping, reflection, or shadow map
+
+//D-Orthographic Camera
+//render the scene without perspective
+//it's like a camera that has no depth, it's like a 2D camera
+//instead of FoV, we provide how far the camera can see in each direction(left, right, top, bottom, near, far)
+
+//E-Perspective Camera
+//render the scene with perspective
+//have 3 parameters : field of view, aspect ratio, and near and far clipping plane
+//a- field of view is how wide the camera can see
+
+//b- aspect ratio is the width of the render divided by the height of the render
+
+//c, d- near and far clipping plane is the distance from the camera where the render starts and ends
+//anything closer than the near clipping plane, or further than the far clipping plane will not be rendered
+// do not use extremely value like 0.001 or 1000000, it'll result in a bug(z-fighting)
+
+/**Custom coordinate */
+//di atas sendiri setelah import
 
 /**LookAt */
 //Object33D instance has a method called lookAt, it'll make the object look at a certain position
@@ -243,17 +315,64 @@ renderer.setSize(sizes.width, sizes.height)
 // tick()
 
 
-
-/************************************* */
-/**Cameras */
 const clock = new THREE.Clock()
 const tick = () => {
   const elapsedTime = clock.getElapsedTime()
 
-  // Update objects
-  mesh.rotation.y = elapsedTime;
+  //// Update objects
+  // mesh.rotation.y = elapsedTime;
+
+  // //update camera for mouse movement
+  // //for a 360 degree rotation, we can use sin and cos
+  // camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3
+  // camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 3
+  // camera.position.y = cursor.y * 5
+
+  //increase the amplitude by multipying the cursor.x and cursor.y
+  //ask the camera to look at the mesh position
+  
+  // camera.lookAt(mesh.position)
+
+  //three.js has multiple classes called controls to help us control the camera :
+  //1 - DeviceOrientationControls
+  //will automatically retrive the device orientation and move the camera accordingly
+  //useful to create immersive universe or VR experience
+
+  //2- FlyControls
+  //enable to moving the camera like if u were on a spaceship
+  //u can rotate on all 33 axes, go forward, and backward
+
+  //3- FirstPersonControls
+  //like flycontrol, but can't go up or down
+
+  //4- PointerLockControls
+  //lock the mouse to the canvas, and move the camera like in a first person game
+  //uses the pointer lock javascript API
+  //hard to use and almost only handle the pointer lock, and camera rotation, not the movement
+  //if want to added the movement, need to do it manually using the keyboard event
+
+  //5- OrbitControls
+  //enable to orbit around a target
+
+  //6- TrackballControls
+  //like orbit controls, but without the vertical angle limitation
+
+  //7- TransformControls
+  //has nothing to do with camera
+  //it's a tool to move, rotate, and scale objects in the scene
+
+  //8- DragControls
+  //has nothing to do with camera
+  //it's a tool to drag objects in the scene
 
   // Render
+  
+  //orbitcontrol class cannot be access with just 'OrbitControls', we need to import it from the library
+
+  //update controls
+  controls.update()
+  //if u're using the damping, dont forget to update the controls on each frame just like this
+
   renderer.render(scene, camera)
 
   // Call tick again on the next frame
