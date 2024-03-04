@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import './style.css'
 import gsap from 'gsap'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 //cursor
 //get coordinate from the mouse
@@ -144,6 +145,19 @@ camera.position.z = 3
 camera.lookAt(mesh.position)
 scene.add(camera)
 //add camera to scene is optional, but if you dont, it might result in a bug in some situation, better add
+
+//Controls
+const controls = new OrbitControls(camera, canvas)
+//canvas is the dom element where the renderer is rendering, where the mouse event is happening
+//Target
+//by default, the camera is looking at the center of the scene, we can change the target by using the target property
+// controls.target.y = 2
+// controls.update()
+
+/**Damping */
+//the damping will smooth the animation by adding some kind of acceleration and friction
+// to enable damping, swith the property enableDamping to true
+controls.enableDamping =  true
 
 
 /************************************* */
@@ -301,9 +315,6 @@ renderer.setSize(sizes.width, sizes.height)
 // tick()
 
 
-
-
-
 const clock = new THREE.Clock()
 const tick = () => {
   const elapsedTime = clock.getElapsedTime()
@@ -311,15 +322,16 @@ const tick = () => {
   //// Update objects
   // mesh.rotation.y = elapsedTime;
 
-  //update camera for mouse movement
-  //for a 360 degree rotation, we can use sin and cos
-  camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3
-  camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 3
-  camera.position.y = cursor.y * 5
+  // //update camera for mouse movement
+  // //for a 360 degree rotation, we can use sin and cos
+  // camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3
+  // camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 3
+  // camera.position.y = cursor.y * 5
 
   //increase the amplitude by multipying the cursor.x and cursor.y
   //ask the camera to look at the mesh position
-  camera.lookAt(mesh.position)
+  
+  // camera.lookAt(mesh.position)
 
   //three.js has multiple classes called controls to help us control the camera :
   //1 - DeviceOrientationControls
@@ -355,6 +367,12 @@ const tick = () => {
 
   // Render
   
+  //orbitcontrol class cannot be access with just 'OrbitControls', we need to import it from the library
+
+  //update controls
+  controls.update()
+  //if u're using the damping, dont forget to update the controls on each frame just like this
+
   renderer.render(scene, camera)
 
   // Call tick again on the next frame
