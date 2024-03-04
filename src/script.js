@@ -112,13 +112,52 @@ const sizes = {
 
 //camera
 //75 is field of view, like the one in camera, the normal field of view is around 35, the higher the number, the smaller the field of view, the smaller the number, the wider field of view
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
+const camera = new THREE.PerspectiveCamera(55, sizes.width / sizes.height, 0.1, 100)
+// const aspectRatio = sizes.width / sizes.height
+// const camera = new THREE.OrthographicCamera(
+//   -1 *aspectRatio, 
+//   1*aspectRatio, 
+//   1, 
+//   -1, 
+//   0.1, 
+//   100)
 camera.position.x = 2
 camera.position.y = 2
 camera.position.z = 2
 camera.lookAt(mesh.position)
 scene.add(camera)
 //add camera to scene is optional, but if you dont, it might result in a bug in some situation, better add
+
+
+/************************************* */
+/**Cameras */
+//camera is an abstract class
+//you're not supposed to use it directly
+//A- Array Camera
+//it render the scene from multiple cameras on specific areas of the render
+
+//B-Stereo Camera
+//render the scene from two cameras, one for each eye, for VR
+
+//C-Cube Camera
+//do 6 renders, each one for each face of a cube, for reflection mapping
+//can render the surrounding for things like environment mapping, reflection, or shadow map
+
+//D-Orthographic Camera
+//render the scene without perspective
+//it's like a camera that has no depth, it's like a 2D camera
+//instead of FoV, we provide how far the camera can see in each direction(left, right, top, bottom, near, far)
+
+//E-Perspective Camera
+//render the scene with perspective
+//have 3 parameters : field of view, aspect ratio, and near and far clipping plane
+//a- field of view is how wide the camera can see
+
+//b- aspect ratio is the width of the render divided by the height of the render
+
+//c, d- near and far clipping plane is the distance from the camera where the render starts and ends
+//anything closer than the near clipping plane, or further than the far clipping plane will not be rendered
+// do not use extremely value like 0.001 or 1000000, it'll result in a bug(z-fighting)
 
 
 /**LookAt */
@@ -244,8 +283,8 @@ renderer.setSize(sizes.width, sizes.height)
 
 
 
-/************************************* */
-/**Cameras */
+
+
 const clock = new THREE.Clock()
 const tick = () => {
   const elapsedTime = clock.getElapsedTime()
