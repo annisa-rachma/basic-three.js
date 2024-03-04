@@ -1,6 +1,23 @@
 import * as THREE from 'three'
 import './style.css'
 import gsap from 'gsap'
+
+//cursor
+//get coordinate from the mouse
+const cursor = {
+  x : 0,
+  y: 0
+}
+window.addEventListener('mousemove', (event) => {
+  //if it's just like this, the coordinate will go too far outside the canvas
+  // console.log(event.clientY);
+  //to make the value from 0 to 1, we can divide it by the width size
+  //add - 0.5 to create a negative and positive num
+  cursor.x = event.clientX / sizes.width - 0.5
+  cursor.y = -(event.clientY / sizes.height - 0.5)
+  //the y axis must be negated because the cursor.y is positive when going down, while the three.js y is positive when going up
+})
+
 //canvas
 const canvas = document.querySelector('canvas.webgl')
 
@@ -112,7 +129,7 @@ const sizes = {
 
 //camera
 //75 is field of view, like the one in camera, the normal field of view is around 35, the higher the number, the smaller the field of view, the smaller the number, the wider field of view
-const camera = new THREE.PerspectiveCamera(55, sizes.width / sizes.height, 0.1, 100)
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 // const aspectRatio = sizes.width / sizes.height
 // const camera = new THREE.OrthographicCamera(
 //   -1 *aspectRatio, 
@@ -121,9 +138,9 @@ const camera = new THREE.PerspectiveCamera(55, sizes.width / sizes.height, 0.1, 
 //   -1, 
 //   0.1, 
 //   100)
-camera.position.x = 2
-camera.position.y = 2
-camera.position.z = 2
+// camera.position.x = 2
+// camera.position.y = 2
+camera.position.z = 3
 camera.lookAt(mesh.position)
 scene.add(camera)
 //add camera to scene is optional, but if you dont, it might result in a bug in some situation, better add
@@ -159,6 +176,8 @@ scene.add(camera)
 //anything closer than the near clipping plane, or further than the far clipping plane will not be rendered
 // do not use extremely value like 0.001 or 1000000, it'll result in a bug(z-fighting)
 
+/**Custom coordinate */
+//di atas sendiri setelah import
 
 /**LookAt */
 //Object33D instance has a method called lookAt, it'll make the object look at a certain position
@@ -289,8 +308,18 @@ const clock = new THREE.Clock()
 const tick = () => {
   const elapsedTime = clock.getElapsedTime()
 
-  // Update objects
-  mesh.rotation.y = elapsedTime;
+  //// Update objects
+  // mesh.rotation.y = elapsedTime;
+
+  //update camera for mouse movement
+  //for a 360 degree rotation, we can use sin and cos
+  camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3
+  camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 3
+  camera.position.y = cursor.y * 5
+
+  //increase the amplitude by multipying the cursor.x and cursor.y
+  //ask the camera to look at the mesh position
+  camera.lookAt(mesh.position)
 
   // Render
   renderer.render(scene, camera)
