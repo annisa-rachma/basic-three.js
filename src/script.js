@@ -321,7 +321,40 @@ const tick = () => {
   //ask the camera to look at the mesh position
   camera.lookAt(mesh.position)
 
+  //three.js has multiple classes called controls to help us control the camera :
+  //1 - DeviceOrientationControls
+  //will automatically retrive the device orientation and move the camera accordingly
+  //useful to create immersive universe or VR experience
+
+  //2- FlyControls
+  //enable to moving the camera like if u were on a spaceship
+  //u can rotate on all 33 axes, go forward, and backward
+
+  //3- FirstPersonControls
+  //like flycontrol, but can't go up or down
+
+  //4- PointerLockControls
+  //lock the mouse to the canvas, and move the camera like in a first person game
+  //uses the pointer lock javascript API
+  //hard to use and almost only handle the pointer lock, and camera rotation, not the movement
+  //if want to added the movement, need to do it manually using the keyboard event
+
+  //5- OrbitControls
+  //enable to orbit around a target
+
+  //6- TrackballControls
+  //like orbit controls, but without the vertical angle limitation
+
+  //7- TransformControls
+  //has nothing to do with camera
+  //it's a tool to move, rotate, and scale objects in the scene
+
+  //8- DragControls
+  //has nothing to do with camera
+  //it's a tool to drag objects in the scene
+
   // Render
+  
   renderer.render(scene, camera)
 
   // Call tick again on the next frame
