@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-// import './style.css'
 import gsap from 'gsap'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
@@ -127,6 +126,20 @@ const sizes = {
   width : window.innerWidth,
   height : window.innerHeight
 }
+
+window.addEventListener('resize', () => {
+  //update sizes
+  sizes.width = window.innerWidth
+  sizes.height = window.innerHeight
+
+  //update camera
+  camera.aspect = sizes.width / sizes.height
+  camera.updateProjectionMatrix()
+
+  //update renderer
+  renderer.setSize(sizes.width, sizes.height)
+})
+
 
 //camera
 //75 is field of view, like the one in camera, the normal field of view is around 35, the higher the number, the smaller the field of view, the smaller the number, the wider field of view
