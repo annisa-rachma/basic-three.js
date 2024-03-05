@@ -138,6 +138,8 @@ window.addEventListener('resize', () => {
 
   //update renderer
   renderer.setSize(sizes.width, sizes.height)
+
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
 
 
@@ -217,6 +219,8 @@ const renderer = new THREE.WebGLRenderer({
   canvas: canvas
 })
 renderer.setSize(sizes.width, sizes.height)
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+//always do this, so when the user's device has higher pixel ratio, it will be max 2 pixel ratio, if not, it'll have performance issue with higher pixel ratio
 
 // renderer.render(scene, camera)
 
