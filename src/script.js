@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-import './style.css'
 import gsap from 'gsap'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
@@ -124,9 +123,51 @@ scene.add(axesHelper)
 
 //sizes
 const sizes = {
-  width : 800,
-  height : 600
+  width : window.innerWidth,
+  height : window.innerHeight
 }
+
+window.addEventListener('resize', () => {
+  //update sizes
+  sizes.width = window.innerWidth
+  sizes.height = window.innerHeight
+
+  //update camera
+  camera.aspect = sizes.width / sizes.height
+  camera.updateProjectionMatrix()
+
+  //update renderer
+  renderer.setSize(sizes.width, sizes.height)
+
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+})
+
+//fullscreen
+window.addEventListener('dblclick', () => {
+  //this won't work on safari
+  // if(!document.fullscreenElement) {
+  //   canvas.requestFullscreen()
+  // } else {
+  //   document.exitFullscreen()
+  // }
+
+  //u need to do this instead if want to accomodate safari
+  const fullscreenElement = document.fullscreenElement || document.webkitFullScreenElement
+  if(!fullscreenElement) {
+    if(canvas.requestFullscreen) {
+      canvas.requestFullscreen()
+    } else if(canvas.webkitRequestFullScreen) {
+      canvas.webkitRequestFullScreen()
+    }
+  } else {
+    if(document.exitFullscreen) {
+      document.exitFullscreen()
+    } else if(document.webkitExitFullScreen) {
+      document.webkitExitFullScreen()
+    }
+  }
+})
+
 
 //camera
 //75 is field of view, like the one in camera, the normal field of view is around 35, the higher the number, the smaller the field of view, the smaller the number, the wider field of view
@@ -204,6 +245,8 @@ const renderer = new THREE.WebGLRenderer({
   canvas: canvas
 })
 renderer.setSize(sizes.width, sizes.height)
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+//always do this, so when the user's device has higher pixel ratio, it will be max 2 pixel ratio, if not, it'll have performance issue with higher pixel ratio
 
 // renderer.render(scene, camera)
 
