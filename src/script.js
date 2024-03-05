@@ -142,6 +142,32 @@ window.addEventListener('resize', () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
 
+//fullscreen
+window.addEventListener('dblclick', () => {
+  //this won't work on safari
+  // if(!document.fullscreenElement) {
+  //   canvas.requestFullscreen()
+  // } else {
+  //   document.exitFullscreen()
+  // }
+
+  //u need to do this instead if want to accomodate safari
+  const fullscreenElement = document.fullscreenElement || document.webkitFullScreenElement
+  if(!fullscreenElement) {
+    if(canvas.requestFullscreen) {
+      canvas.requestFullscreen()
+    } else if(canvas.webkitRequestFullScreen) {
+      canvas.webkitRequestFullScreen()
+    }
+  } else {
+    if(document.exitFullscreen) {
+      document.exitFullscreen()
+    } else if(document.webkitExitFullScreen) {
+      document.webkitExitFullScreen()
+    }
+  }
+})
+
 
 //camera
 //75 is field of view, like the one in camera, the normal field of view is around 35, the higher the number, the smaller the field of view, the smaller the number, the wider field of view
