@@ -423,3 +423,8 @@ const tick = () => {
 }
 
 tick()
+
+
+/**Geometries */
+//all of the threejs geometries inherit from BufferGeometry
+// 
