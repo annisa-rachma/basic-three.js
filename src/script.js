@@ -26,7 +26,7 @@ const scene = new THREE.Scene()
 
 /************************************* */
 //geometry
-// const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
+const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
 
 
 //u can use this method :
@@ -45,7 +45,7 @@ const scene = new THREE.Scene()
 // positionsArray[8] = 0
 
 //or this one
-const geometry = new THREE.BufferGeometry()
+// const geometry = new THREE.BufferGeometry()
 // const positionsArray = new Float32Array(
 //   [
 //     0, 0, 0, //vertex 1
@@ -66,23 +66,23 @@ const geometry = new THREE.BufferGeometry()
 
 
 //** */
-//we can also create a bunch of random triangle 
-const count  =  500
-const positionsArray = new Float32Array(count * 3 * 3)
-//why multiplying by 3 * 3 ? because each triangle are composed by 3 vertices, and each vertex has 3 coordinates
+// //we can also create a bunch of random triangle 
+// const count  =  500
+// const positionsArray = new Float32Array(count * 3 * 3)
+// //why multiplying by 3 * 3 ? because each triangle are composed by 3 vertices, and each vertex has 3 coordinates
 
-//filled the positionsArray with random value
-for(let i = 0;  i < count * 3 * 3; i++) {
-  positionsArray[i] = (Math.random() - 0.5) * 5
-}
+// //filled the positionsArray with random value
+// for(let i = 0;  i < count * 3 * 3; i++) {
+//   positionsArray[i] = (Math.random() - 0.5) * 5
+// }
 
-const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3)
+// const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3)
 
-geometry.setAttribute('position', positionsAttribute)
+// geometry.setAttribute('position', positionsAttribute)
 
 const material = new THREE.MeshBasicMaterial({ 
   color: 0xff0000, 
-  wireframe: true
+  // wireframe: true
 })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
