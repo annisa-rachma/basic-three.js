@@ -26,8 +26,11 @@ const scene = new THREE.Scene()
 
 /************************************* */
 //geometry
-const geometry = new THREE.BoxGeometry(1, 1, 1)
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
+const material = new THREE.MeshBasicMaterial({ 
+  color: 0xff0000, 
+  wireframe: true
+})
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
@@ -429,3 +432,11 @@ tick()
 //composed of vertices (point of coordinates in 3D space) and faces (triangles that connect the vertices)
 //all of the threejs geometries inherit from BufferGeometry
 // by combining all the geometries from BufferGeometry class, we can make complex geometries
+
+/**Box Geometry */
+//have 6 parameters :
+//width, height, depth, widthSegments, heightSegments, depthSegments
+//suvbddivision corresponding to how much triangles shoud compose a face
+//the more segments, the more triangles, the more detailed the geometry
+//ex : 1 = 2 triangle per face
+// 2 = 8 triangle per face
