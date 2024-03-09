@@ -111,7 +111,11 @@ scene.add(mesh)
 //-fixed length
 //-easiar to handle for computer
 
-
+/**Geometry Index */
+//some geometry has faces that share common vertices
+//when creaating a BufferGeometry, we can specify a bunch of vertices and then the indices to create the faces and reuse vertices multiple times
+//this is useful to optimize the memory usage and the performance of the GPU
+//but its hard bcs we have to organize the vertices and the indices manually
 
 /**POSITIONING
  * u can put this position anywhere, ngga tergantung sama peletakan selama masih di atas renderer.render
