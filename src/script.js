@@ -26,13 +26,92 @@ const scene = new THREE.Scene()
 
 /************************************* */
 //geometry
-const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
+// const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
+
+
+//u can use this method :
+// const positionsArray = new Float32Array(9)
+// //first vertex
+// positionsArray[0] = 0 //x
+// positionsArray[1] = 0 //y
+// positionsArray[2] = 0 //z
+// //second vertex
+// positionsArray[3] = 0
+// positionsArray[4] = 1
+// positionsArray[5] = 0
+// //third vertex
+// positionsArray[6] = 1
+// positionsArray[7] = 0
+// positionsArray[8] = 0
+
+//or this one
+const geometry = new THREE.BufferGeometry()
+// const positionsArray = new Float32Array(
+//   [
+//     0, 0, 0, //vertex 1
+//     0, 1, 0, //vertex 2
+//     1, 0, 0  //vertex 3
+//   ]
+// )
+
+// //we can convert the folat32array to a buffer attribute
+// const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3)
+// // if using x,y,z coordinates so the number after positionsArray is 3
+// //if using uv coordinates, the number after positionsArray is 2
+
+// //we can add this buffer attribute to the buffer geometry using the setAttribute method
+
+// geometry.setAttribute('position', positionsAttribute)
+// //why using position? because it's the name that will be used by the shader to get the position of the vertex
+
+
+//** */
+//we can also create a bunch of random triangle 
+const count  =  500
+const positionsArray = new Float32Array(count * 3 * 3)
+//why multiplying by 3 * 3 ? because each triangle are composed by 3 vertices, and each vertex has 3 coordinates
+
+//filled the positionsArray with random value
+for(let i = 0;  i < count * 3 * 3; i++) {
+  positionsArray[i] = (Math.random() - 0.5) * 5
+}
+
+const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3)
+
+geometry.setAttribute('position', positionsAttribute)
+
 const material = new THREE.MeshBasicMaterial({ 
   color: 0xff0000, 
   wireframe: true
 })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
+
+
+/***********Geometries************** */
+
+/**Geometries */
+//composed of vertices (point of coordinates in 3D space) and faces (triangles that connect the vertices)
+//all of the threejs geometries inherit from BufferGeometry
+// by combining all the geometries from BufferGeometry class, we can make complex geometries
+
+/**Geometry subdivision */
+//have 6 parameters :
+//width, height, depth, widthSegments, heightSegments, depthSegments
+//suvbddivision corresponding to how much triangles shoud compose a face
+//the more segments, the more triangles, the more detailed the geometry
+//ex : 1 = 2 triangle per face
+// 2 = 8 triangle per face
+
+/**Buffer Geometry */
+//before creating a geometry, we need to understand how to store buffer geometry data
+//using Float32Array -> native JS
+//-typed array
+//-can only store float
+//-fixed length
+//-easiar to handle for computer
+
+
 
 /**POSITIONING
  * u can put this position anywhere, ngga tergantung sama peletakan selama masih di atas renderer.render
@@ -121,7 +200,7 @@ scene.add(mesh)
 /**AXES HELPER */
 //Axes Helper -> garis axis pembantu
 const axesHelper = new THREE.AxesHelper()
-scene.add(axesHelper)
+// scene.add(axesHelper)
 
 
 //sizes
@@ -427,16 +506,3 @@ const tick = () => {
 
 tick()
 
-
-/**Geometries */
-//composed of vertices (point of coordinates in 3D space) and faces (triangles that connect the vertices)
-//all of the threejs geometries inherit from BufferGeometry
-// by combining all the geometries from BufferGeometry class, we can make complex geometries
-
-/**Box Geometry */
-//have 6 parameters :
-//width, height, depth, widthSegments, heightSegments, depthSegments
-//suvbddivision corresponding to how much triangles shoud compose a face
-//the more segments, the more triangles, the more detailed the geometry
-//ex : 1 = 2 triangle per face
-// 2 = 8 triangle per face
