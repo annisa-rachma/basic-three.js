@@ -426,5 +426,6 @@ tick()
 
 
 /**Geometries */
+//composed of vertices (point of coordinates in 3D space) and faces (triangles that connect the vertices)
 //all of the threejs geometries inherit from BufferGeometry
-// 
+// by combining all the geometries from BufferGeometry class, we can make complex geometries
