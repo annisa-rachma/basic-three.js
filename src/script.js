@@ -107,7 +107,7 @@ const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
 
 const material = new THREE.MeshBasicMaterial({ 
   color: debugObject.color, 
-  wireframe: true
+  // wireframe: true
 })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
@@ -679,3 +679,7 @@ tick()
 //many technics that tend to follow real-life directions to get realistic result
 //becoming the standard for realistic rendering
 //many software, enginers and libraries are using PBR
+
+
+//to load texture we need the url of the image file
+
