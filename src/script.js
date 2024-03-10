@@ -7,6 +7,8 @@ import GUI from 'lil-gui'
 //debug UI
 const gui = new GUI()
 
+
+
 //cursor
 //get coordinate from the mouse
 const cursor = {
@@ -91,6 +93,30 @@ const material = new THREE.MeshBasicMaterial({
 })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
+
+
+/**GUI */
+//different type of control
+//A- Range : for number with minimum and maximum value
+//B- color : for color with various format
+//C - Text : for simple text
+//D - Checkbox : for boolean value
+//E - Select : for a choice from a list of value
+//F- Button : to trigger function
+
+
+//most of the tweaks can be added using gui.add(...), with parameters : the object, and the property of the object
+
+
+//gui.add(mesh.position, 'y', -3, 3, 0.01)
+//specify the minimum, the maximum, and precision with the next parameter
+//or u can also write it like this one :
+gui
+  .add(mesh.position, 'y')
+  .min(-3)
+  .max(3)
+  .step(0.01)
+  .name('elevation')
 
 
 /***********Geometries************** */
