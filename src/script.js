@@ -6,7 +6,7 @@ import GUI from 'lil-gui'
 
 //debug UI
 const gui = new GUI()
-
+const debugObject = {}
 
 
 //cursor
@@ -30,6 +30,9 @@ const canvas = document.querySelector('canvas.webgl')
 
 //scene
 const scene = new THREE.Scene()
+
+//add debug object
+debugObject.color = '#3a6ea6'
 
 /************************************* */
 //geometry
@@ -88,7 +91,7 @@ const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
 // geometry.setAttribute('position', positionsAttribute)
 
 const material = new THREE.MeshBasicMaterial({ 
-  color: 0xff0000, 
+  color: debugObject.color, 
   // wireframe: true
 })
 const mesh = new THREE.Mesh(geometry, material)
@@ -123,6 +126,28 @@ gui
 gui.add(mesh, 'visible')
 
 gui.add(material, 'wireframe')
+
+/**Colors */
+//the color property is not a string, a boolean, or a number, it's an instance of Three.js color class
+// we need to use addColor(...) instead of add(...)
+gui
+  .addColor(debugObject, 'color')
+  .onChange(()=> {
+    material.color.set(debugObject.color)
+  })
+
+//if we try to take the color value from the tweak, we end up with the wrong colot
+//THREE.js aply some color menagement in order to optimize the rendering
+//the color value that is being displayed in the tweal isnt the same value as the one being used internally
+//so we can retrive the color used internally by THREE.js with the getHexString() method
+
+
+/**dealong with non-modified color only */
+//we need to save the color somewhere outside three.js
+//bcs right now, we change it, and use three.js color whic becam an issue bcs the color result is not the same as the one we use
+//we're going to create an object whose purpose is to hold properties
+//we can call it global, parameters, debugObject, etc
+
 
 /***********Geometries************** */
 
