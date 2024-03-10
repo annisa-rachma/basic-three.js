@@ -142,12 +142,22 @@ gui
 //so we can retrive the color used internally by THREE.js with the getHexString() method
 
 
-/**dealong with non-modified color only */
+/**dealing with non-modified color only */
 //we need to save the color somewhere outside three.js
 //bcs right now, we change it, and use three.js color whic becam an issue bcs the color result is not the same as the one we use
 //we're going to create an object whose purpose is to hold properties
 //we can call it global, parameters, debugObject, etc
 
+
+/**button / function */
+//sometimes we just want to trigger instruction on demand
+//ex: we want to make the cube perform a spin animation when we click a button
+
+//u can add property inside debugObject
+debugObject.spin = () => {
+  gsap.to(mesh.rotation, { y : mesh.rotation.y + Math.PI * 2})
+}
+gui.add(debugObject, 'spin')
 
 /***********Geometries************** */
 
