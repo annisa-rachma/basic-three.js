@@ -92,13 +92,13 @@ const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
 
 const material = new THREE.MeshBasicMaterial({ 
   color: debugObject.color, 
-  // wireframe: true
+  wireframe: true
 })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
 
-/**GUI */
+/*********************GUI***************/
 //different type of control
 //A- Range : for number with minimum and maximum value
 //B- color : for color with various format
@@ -159,6 +159,34 @@ debugObject.spin = () => {
 }
 gui.add(debugObject, 'spin')
 
+
+/********Tweak the geometry */
+//widthSegments will be used to generate the whole geometry only once
+//since its not a property, we need to add a subdivision property to the debugObject and apply our tweak on it
+debugObject.subdivision = 2
+gui
+  .add(debugObject, 'subdivision')
+  .min(1)
+  .max(20)
+  .step(1)
+  .onFinishChange(() => {
+    //building a new geometry using debugObject subdivision and associate it with the mesh by assigning it to the geometry property
+    mesh,geometry.dispose()
+    mesh.geometry = new THREE.BoxGeometry(
+      1, 1, 1,
+      debugObject.subdivision, debugObject.subdivision, debugObject.subdivision
+    )
+    //but the old geometry is still in the memory, we need to destroy it, or it can create memory leak, add .dispose() to the old geometry
+  })
+
+//we named it subdivision so that we can use it on all three widthSegment, heightSegment, and depthSegment
+//when the tweak value changes, we are going to destroy the old geometry and build a brand-new one
+//!!building a geometry can be arather lengthy process for the CPU
+//the change event can be triggered a lot if the user drags and drios the range tweak too much, i'll cause performace issue
+//so instead of using onChange, we can use onFinishChange
+
+
+
 /***********Geometries************** */
 
 /**Geometries */
@@ -187,6 +215,9 @@ gui.add(debugObject, 'spin')
 //when creaating a BufferGeometry, we can specify a bunch of vertices and then the indices to create the faces and reuse vertices multiple times
 //this is useful to optimize the memory usage and the performance of the GPU
 //but its hard bcs we have to organize the vertices and the indices manually
+
+
+
 
 /**POSITIONING
  * u can put this position anywhere, ngga tergantung sama peletakan selama masih di atas renderer.render
