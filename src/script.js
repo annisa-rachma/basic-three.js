@@ -635,5 +635,47 @@ const tick = () => {
 tick()
 
 
-/***********Debug UI*****************/
+/***********Textures*****************/
 
+/**Color texture / albedo */
+//most simple one
+//appliend on geometry
+
+/**Alpha */
+//grayscale image
+//white visible, black not visible
+
+/**Height / displacement */
+//grayscale image
+//move the vertices to create some relief
+//move up or down the vertices
+//need enough subdivision
+
+/**Normal */
+//add details, mostly about lighting
+//doesnt need subdivision
+//the vertices wont move
+//lure the light about the face orientation
+//better performance than adding a height texture with a lot of subdivision
+
+/**Ambient Occlusion */
+//grayscale image
+//add fake shadows in crevices
+//not physically accurate
+//helps create contrast and see details
+
+/**Metalness */
+//grayscale image
+//white is metal, black is not
+//mostly for reflection
+
+/**Roughness */
+//grayscale image
+//in duo with metalness
+//white is rough, black is smooth
+//mostly for light dissipation
+
+//all of those textures follow PBR(Physically Based Rendering) rules
+//many technics that tend to follow real-life directions to get realistic result
+//becoming the standard for realistic rendering
+//many software, enginers and libraries are using PBR
