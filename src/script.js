@@ -5,8 +5,23 @@ import GUI from 'lil-gui'
 
 
 //debug UI
-const gui = new GUI()
+const gui = new GUI({
+  width: 340,
+  title : 'Debug Panel',
+  closeFolders : true
+})
+// gui.close()
+// gui.hide()
+window.addEventListener('keydown', (event) => {
+  if(event.key == 'h') {
+    gui.show(gui._hidden)
+  }
+})
 const debugObject = {}
+
+/**GUI Setup */
+//lil-gui is flexible and we can use some parameters, methods, and etc
+//A- width
 
 
 //cursor
@@ -98,7 +113,13 @@ const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
 
-/*********************GUI***************/
+/***************Debug UI***************/
+/**Folder */
+//the debug UI can get crowded, we can use folder to organize the tweak
+//using addFolder()
+const cubeTweaks = gui.addFolder('Cube Tweaks')
+// cubeTweaks.close() // to make it default close the tab
+
 //different type of control
 //A- Range : for number with minimum and maximum value
 //B- color : for color with various format
@@ -114,7 +135,7 @@ scene.add(mesh)
 //gui.add(mesh.position, 'y', -3, 3, 0.01)
 //specify the minimum, the maximum, and precision with the next parameter
 //or u can also write it like this one :
-gui
+cubeTweaks
   .add(mesh.position, 'y')
   .min(-3)
   .max(3)
@@ -123,14 +144,14 @@ gui
 
 
 /**Checkbox*/
-gui.add(mesh, 'visible')
+cubeTweaks.add(mesh, 'visible')
 
-gui.add(material, 'wireframe')
+cubeTweaks.add(material, 'wireframe')
 
 /**Colors */
 //the color property is not a string, a boolean, or a number, it's an instance of Three.js color class
 // we need to use addColor(...) instead of add(...)
-gui
+cubeTweaks
   .addColor(debugObject, 'color')
   .onChange(()=> {
     material.color.set(debugObject.color)
@@ -157,14 +178,14 @@ gui
 debugObject.spin = () => {
   gsap.to(mesh.rotation, { y : mesh.rotation.y + Math.PI * 2})
 }
-gui.add(debugObject, 'spin')
+cubeTweaks.add(debugObject, 'spin')
 
 
 /********Tweak the geometry */
 //widthSegments will be used to generate the whole geometry only once
 //since its not a property, we need to add a subdivision property to the debugObject and apply our tweak on it
 debugObject.subdivision = 2
-gui
+cubeTweaks
   .add(debugObject, 'subdivision')
   .min(1)
   .max(20)
@@ -184,6 +205,7 @@ gui
 //!!building a geometry can be arather lengthy process for the CPU
 //the change event can be triggered a lot if the user drags and drios the range tweak too much, i'll cause performace issue
 //so instead of using onChange, we can use onFinishChange
+
 
 
 
