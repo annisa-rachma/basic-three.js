@@ -3,21 +3,83 @@ import gsap from 'gsap'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import GUI from 'lil-gui'
 
+/**************Textures****************/
+// const image = new Image()
+// const texture = new THREE.Texture(image)
+// texture.colorSpace = THREE.SRGBColorSpace
 
-//debug UI
-const gui = new GUI({
-  width: 340,
-  title : 'Debug Panel',
-  closeFolders : true
-})
-// gui.close()
-// gui.hide()
-window.addEventListener('keydown', (event) => {
-  if(event.key == 'h') {
-    gui.show(gui._hidden)
-  }
-})
-const debugObject = {}
+// image.onload = () => {
+//   // const texture = new THREE.Texture(image)
+//   // we need to use the texture in the material
+//   //but the texture variable has been declared in a function and we can't access it outside the function
+  
+//   //so we can create the texture outside of the function, and update it once the image is loaded with needUpdate = true
+//   texture.needsUpdate = true
+
+// }
+
+// image.src = '/textures/door/color.jpg'
+
+//we can't use the image directly, we need to convert it to a texture
+
+
+/******Texture loader ********/
+//instantiate a variable using TextureLoader class and use its .load(...) method to create a texture
+
+
+/******Using the loading manager ******/
+//we can use the loading manager to keep track of the loading process of multiple resources
+//create an instance of the LoadingManager class and pass it to TextureLoader
+
+const loadingManager = new THREE.LoadingManager()
+//loadingManager has 3 methods : onStart, onProgress, and onLoad, onError
+loadingManager.onStart = () => {
+  console.log('onStart');
+}
+loadingManager.onLoad = () => {
+  console.log('onLoad');
+}
+loadingManager.onProgress = () => {
+  console.log('onProgress');
+}
+loadingManager.onError = () => {
+  console.log('onError');
+}
+
+const textureLoader = new THREE.TextureLoader(loadingManager)
+const colorTexture = textureLoader.load('/textures/door/color.jpg')
+const alphaTexture = textureLoader.load('/textures/door/alpha.jpg')
+const heightTexture = textureLoader.load('/textures/door/height.jpg')
+const normalTexture = textureLoader.load('/textures/door/normal.jpg')
+const ambientOcclusionTexture = textureLoader.load('/textures/door/ambientOcclusion.jpg')
+const metalnessTexture = textureLoader.load('/textures/door/metalness.jpg')
+const roughnessTexture = textureLoader.load('/textures/door/roughness.jpg')
+colorTexture.colorSpace = THREE.SRGBColorSpace
+
+//one texture loader can load multiple textures
+//we can send 3 functions after the path :
+//1- load : when the image load successfully
+//2- progress : when the image is loading -> never worked
+//3- error : when the image fail to load
+
+
+
+
+/***************DEBUG UI *********** */
+// //debug UI
+// const gui = new GUI({
+//   width: 340,
+//   title : 'Debug Panel',
+//   closeFolders : true
+// })
+// // gui.close()
+// // gui.hide()
+// window.addEventListener('keydown', (event) => {
+//   if(event.key == 'h') {
+//     gui.show(gui._hidden)
+//   }
+// })
+// const debugObject = {}
 
 /**GUI Setup */
 //lil-gui is flexible and we can use some parameters, methods, and etc
@@ -47,7 +109,7 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 //add debug object
-debugObject.color = '#3a6ea6'
+// debugObject.color = '#3a6ea6'
 
 /************************************* */
 //geometry
@@ -106,7 +168,9 @@ const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
 // geometry.setAttribute('position', positionsAttribute)
 
 const material = new THREE.MeshBasicMaterial({ 
-  color: debugObject.color, 
+  // color: debugObject.color, 
+  // color: '#3a6ea6', 
+  map : colorTexture,
   // wireframe: true
 })
 const mesh = new THREE.Mesh(geometry, material)
@@ -114,97 +178,97 @@ scene.add(mesh)
 
 
 /***************Debug UI***************/
-/**Folder */
-//the debug UI can get crowded, we can use folder to organize the tweak
-//using addFolder()
-const cubeTweaks = gui.addFolder('Cube Tweaks')
-// cubeTweaks.close() // to make it default close the tab
+// /**Folder */
+// //the debug UI can get crowded, we can use folder to organize the tweak
+// //using addFolder()
+// const cubeTweaks = gui.addFolder('Cube Tweaks')
+// // cubeTweaks.close() // to make it default close the tab
 
-//different type of control
-//A- Range : for number with minimum and maximum value
-//B- color : for color with various format
-//C - Text : for simple text
-//D - Checkbox : for boolean value
-//E - Select : for a choice from a list of value
-//F- Button : to trigger function
-
-
-//most of the tweaks can be added using gui.add(...), with parameters : the object, and the property of the object
-
-/**Range*/
-//gui.add(mesh.position, 'y', -3, 3, 0.01)
-//specify the minimum, the maximum, and precision with the next parameter
-//or u can also write it like this one :
-cubeTweaks
-  .add(mesh.position, 'y')
-  .min(-3)
-  .max(3)
-  .step(0.01)
-  .name('elevation')
+// //different type of control
+// //A- Range : for number with minimum and maximum value
+// //B- color : for color with various format
+// //C - Text : for simple text
+// //D - Checkbox : for boolean value
+// //E - Select : for a choice from a list of value
+// //F- Button : to trigger function
 
 
-/**Checkbox*/
-cubeTweaks.add(mesh, 'visible')
+// //most of the tweaks can be added using gui.add(...), with parameters : the object, and the property of the object
 
-cubeTweaks.add(material, 'wireframe')
-
-/**Colors */
-//the color property is not a string, a boolean, or a number, it's an instance of Three.js color class
-// we need to use addColor(...) instead of add(...)
-cubeTweaks
-  .addColor(debugObject, 'color')
-  .onChange(()=> {
-    material.color.set(debugObject.color)
-  })
-
-//if we try to take the color value from the tweak, we end up with the wrong colot
-//THREE.js aply some color menagement in order to optimize the rendering
-//the color value that is being displayed in the tweal isnt the same value as the one being used internally
-//so we can retrive the color used internally by THREE.js with the getHexString() method
+// /**Range*/
+// //gui.add(mesh.position, 'y', -3, 3, 0.01)
+// //specify the minimum, the maximum, and precision with the next parameter
+// //or u can also write it like this one :
+// cubeTweaks
+//   .add(mesh.position, 'y')
+//   .min(-3)
+//   .max(3)
+//   .step(0.01)
+//   .name('elevation')
 
 
-/**dealing with non-modified color only */
-//we need to save the color somewhere outside three.js
-//bcs right now, we change it, and use three.js color whic becam an issue bcs the color result is not the same as the one we use
-//we're going to create an object whose purpose is to hold properties
-//we can call it global, parameters, debugObject, etc
+// /**Checkbox*/
+// cubeTweaks.add(mesh, 'visible')
+
+// cubeTweaks.add(material, 'wireframe')
+
+// /**Colors */
+// //the color property is not a string, a boolean, or a number, it's an instance of Three.js color class
+// // we need to use addColor(...) instead of add(...)
+// cubeTweaks
+//   .addColor(debugObject, 'color')
+//   .onChange(()=> {
+//     material.color.set(debugObject.color)
+//   })
+
+// //if we try to take the color value from the tweak, we end up with the wrong colot
+// //THREE.js aply some color menagement in order to optimize the rendering
+// //the color value that is being displayed in the tweal isnt the same value as the one being used internally
+// //so we can retrive the color used internally by THREE.js with the getHexString() method
 
 
-/**button / function */
-//sometimes we just want to trigger instruction on demand
-//ex: we want to make the cube perform a spin animation when we click a button
-
-//u can add property inside debugObject
-debugObject.spin = () => {
-  gsap.to(mesh.rotation, { y : mesh.rotation.y + Math.PI * 2})
-}
-cubeTweaks.add(debugObject, 'spin')
+// /**dealing with non-modified color only */
+// //we need to save the color somewhere outside three.js
+// //bcs right now, we change it, and use three.js color whic becam an issue bcs the color result is not the same as the one we use
+// //we're going to create an object whose purpose is to hold properties
+// //we can call it global, parameters, debugObject, etc
 
 
-/********Tweak the geometry */
-//widthSegments will be used to generate the whole geometry only once
-//since its not a property, we need to add a subdivision property to the debugObject and apply our tweak on it
-debugObject.subdivision = 2
-cubeTweaks
-  .add(debugObject, 'subdivision')
-  .min(1)
-  .max(20)
-  .step(1)
-  .onFinishChange(() => {
-    //building a new geometry using debugObject subdivision and associate it with the mesh by assigning it to the geometry property
-    mesh,geometry.dispose()
-    mesh.geometry = new THREE.BoxGeometry(
-      1, 1, 1,
-      debugObject.subdivision, debugObject.subdivision, debugObject.subdivision
-    )
-    //but the old geometry is still in the memory, we need to destroy it, or it can create memory leak, add .dispose() to the old geometry
-  })
+// /**button / function */
+// //sometimes we just want to trigger instruction on demand
+// //ex: we want to make the cube perform a spin animation when we click a button
 
-//we named it subdivision so that we can use it on all three widthSegment, heightSegment, and depthSegment
-//when the tweak value changes, we are going to destroy the old geometry and build a brand-new one
-//!!building a geometry can be arather lengthy process for the CPU
-//the change event can be triggered a lot if the user drags and drios the range tweak too much, i'll cause performace issue
-//so instead of using onChange, we can use onFinishChange
+// //u can add property inside debugObject
+// debugObject.spin = () => {
+//   gsap.to(mesh.rotation, { y : mesh.rotation.y + Math.PI * 2})
+// }
+// cubeTweaks.add(debugObject, 'spin')
+
+
+// /********Tweak the geometry */
+// //widthSegments will be used to generate the whole geometry only once
+// //since its not a property, we need to add a subdivision property to the debugObject and apply our tweak on it
+// debugObject.subdivision = 2
+// cubeTweaks
+//   .add(debugObject, 'subdivision')
+//   .min(1)
+//   .max(20)
+//   .step(1)
+//   .onFinishChange(() => {
+//     //building a new geometry using debugObject subdivision and associate it with the mesh by assigning it to the geometry property
+//     mesh,geometry.dispose()
+//     mesh.geometry = new THREE.BoxGeometry(
+//       1, 1, 1,
+//       debugObject.subdivision, debugObject.subdivision, debugObject.subdivision
+//     )
+//     //but the old geometry is still in the memory, we need to destroy it, or it can create memory leak, add .dispose() to the old geometry
+//   })
+
+// //we named it subdivision so that we can use it on all three widthSegment, heightSegment, and depthSegment
+// //when the tweak value changes, we are going to destroy the old geometry and build a brand-new one
+// //!!building a geometry can be arather lengthy process for the CPU
+// //the change event can be triggered a lot if the user drags and drios the range tweak too much, i'll cause performace issue
+// //so instead of using onChange, we can use onFinishChange
 
 
 
