@@ -1,6 +1,11 @@
 import * as THREE from 'three'
 import gsap from 'gsap'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import GUI from 'lil-gui'
+
+
+//debug UI
+const gui = new GUI()
 
 //cursor
 //get coordinate from the mouse
@@ -509,4 +514,7 @@ const tick = () => {
 }
 
 tick()
+
+
+/***********Debug UI*****************/
 
