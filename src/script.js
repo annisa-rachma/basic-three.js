@@ -107,7 +107,7 @@ scene.add(mesh)
 
 //most of the tweaks can be added using gui.add(...), with parameters : the object, and the property of the object
 
-
+/**Range*/
 //gui.add(mesh.position, 'y', -3, 3, 0.01)
 //specify the minimum, the maximum, and precision with the next parameter
 //or u can also write it like this one :
@@ -118,6 +118,11 @@ gui
   .step(0.01)
   .name('elevation')
 
+
+/**Checkbox*/
+gui.add(mesh, 'visible')
+
+gui.add(material, 'wireframe')
 
 /***********Geometries************** */
 
