@@ -47,7 +47,7 @@ const loadingManager = new THREE.LoadingManager()
 // }
 
 const textureLoader = new THREE.TextureLoader(loadingManager)
-const colorTexture = textureLoader.load('/textures/door/color.jpg')
+const colorTexture = textureLoader.load('/textures/minecraft.png')
 const alphaTexture = textureLoader.load('/textures/door/alpha.jpg')
 const heightTexture = textureLoader.load('/textures/door/height.jpg')
 const normalTexture = textureLoader.load('/textures/door/normal.jpg')
@@ -92,12 +92,34 @@ colorTexture.colorSpace = THREE.SRGBColorSpace
 // colorTexture.offset.x = 0.5
 // colorTexture.offset.y = 0.5
 
-/**Rotation */
-//we can rotate the texture using rotation property
-colorTexture.rotation = Math.PI * 0.25
-//move the pivot point to the center
-colorTexture.center.x = 0.5
-colorTexture.center.y = 0.5
+// /**Rotation */
+// //we can rotate the texture using rotation property
+// colorTexture.rotation = Math.PI * 0.25
+// //move the pivot point to the center
+// colorTexture.center.x = 0.5
+// colorTexture.center.y = 0.5
+
+/**Filtering and MipMapping */
+//MipMapping is a technique to optimize the rendering of a texture
+//it consist of creating half a smaller version of a texture again and again until we get a 1x1 texture
+//all those texture variations are sent to the GPU, and the GPU will use the most appropriate texture depending on the distance of the object to the camera
+
+//Minification Filter
+//it happens when the pixels of texture are smaller than the pixels of the render.
+//or the texture is too big for the surface it covers
+//we can use the minFilter property to change the minification filter
+
+colorTexture.generateMipmaps = false
+colorTexture.minFilter = THREE.NearestFilter
+//when using nearestFilter on minFilter, we dont need the mipmaps
+//we can deactivate the mipmaps generation with colorTexture.generateMipmaps = false
+
+//it makees sharper
+//we can change the magnification filter using magFilter property with those 2 values : THREE.NearestFilter, THREE.LinearFilter
+colorTexture.magFilter = THREE.NearestFilter
+//it makes the texture more pixelated or sharper
+
+//using nearestfilter is better for performances, will get better framerate
 
 /***************DEBUG UI *********** */
 // //debug UI
