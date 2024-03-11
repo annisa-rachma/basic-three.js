@@ -73,6 +73,32 @@ colorTexture.colorSpace = THREE.SRGBColorSpace
 //if making geometry using 3D software, we have to do the UV unwrapping
 
 
+/******* Transforming Texture ******/
+/**repeat*/
+//we can repeat the texture by using the repeat property
+//its a Vector2 with x and y properties
+// colorTexture.repeat.x = 2
+// colorTexture.repeat.y = 3
+
+// /**Repeat wrapping */
+// //by default, the texture didnt repeat, and the last picture get stretched, we can change that using THREE.RepeatWrapping on the wrapS and wrapT property
+// colorTexture.wrapS = THREE.MirroredRepeatWrapping
+// colorTexture.wrapT = THREE.MirroredRepeatWrapping
+// //we can alternate the direction of the repeat using THREE.MirroredRepeatWrapping
+// //maybe for a seamless texture
+
+// /**Offset */
+// //we can offset the texture using the offset property which is a Vector2
+// colorTexture.offset.x = 0.5
+// colorTexture.offset.y = 0.5
+
+/**Rotation */
+//we can rotate the texture using rotation property
+colorTexture.rotation = Math.PI * 0.25
+//move the pivot point to the center
+colorTexture.center.x = 0.5
+colorTexture.center.y = 0.5
+
 /***************DEBUG UI *********** */
 // //debug UI
 // const gui = new GUI({
