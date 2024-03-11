@@ -121,6 +121,34 @@ colorTexture.magFilter = THREE.NearestFilter
 
 //using nearestfilter is better for performances, will get better framerate
 
+
+
+/*****Texture format and optimisation */
+//when preparing your textures, keep in mind 3 crucial elements : the weight, the size or resolution, the data
+
+//1- the weight : the size of the file
+//the users will have to download the textures, choose the right type of file
+//jpg - lossy compression but usually lighter
+//png - lossless compression but usually heavier
+//u can use compresssion website like TinyPNG
+
+//2- the size or resolution
+//each pixels of the texture will have to be stored on the GPU regardless image's weight
+//GPU has storage limitation
+// it's even worse because mipmapping increase the number of pixels to store, so try to reduce the size as much as possible
+//the mipmapping will produce a half smaller version of the texture repeatedly until 1x1
+//because of that, the texture width and height must be a power of 2
+//ex : 512x512, 1024x1024, 512x2048, 4096x4096, etc
+
+//3- the data
+//Textures support transparency but we cant have transparency in .jpg
+//u can send two jpg with the same name, one with .jpg and the other with .alpha.jpg
+//or use .png
+//it depends on the project, if the project is a game, we need to optimize the texture as much as possible
+//the performance is better with .jpg, but the quality is better with .png
+//if we are using normal texture, we want to have the exact values, we better use .png
+//we can combine different data into one texture by using the RGBA channels separately
+
 /***************DEBUG UI *********** */
 // //debug UI
 // const gui = new GUI({
