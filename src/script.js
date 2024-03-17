@@ -54,8 +54,14 @@ matcapTexture.colorSpace = THREE.SRGBColorSpace
 // const material = new THREE.MeshMatcapMaterial()
 // material.matcap = matcapTexture
 
-const material = new THREE.MeshDepthMaterial()
+//MeshDepthMaterial
+// const material = new THREE.MeshDepthMaterial()
 
+//MeshLambertMaterial
+//need light
+//most performant material that uses light
+//but it's not the most realistic, not convenient
+const material = new THREE.MeshLambertMaterial()
 
 const sphere = new THREE.Mesh(
   new THREE.SphereGeometry(0.5, 16, 16),
@@ -75,6 +81,16 @@ const torus = new THREE.Mesh(
 torus.position.x = 1.5
 
 scene.add(sphere, plane, torus)
+
+/**
+ * Light
+ */
+const ambientLight = new THREE.AmbientLight(0xffffff, 1)
+scene.add(ambientLight)
+
+const pointLight = new THREE.PointLight(0xffffff, 30)
+pointLight.position.set(2, 3, 4)
+scene.add(pointLight)
 
 /**
  * Sizes
