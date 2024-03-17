@@ -51,8 +51,11 @@ matcapTexture.colorSpace = THREE.SRGBColorSpace
 //need a reference texture that looks like a sphere
 //it looks iluminated, but its an illusion created by the texture
 //the result is the same regarding the orientation -> we cant update the lights
-const material = new THREE.MeshMatcapMaterial()
-material.matcap = matcapTexture
+// const material = new THREE.MeshMatcapMaterial()
+// material.matcap = matcapTexture
+
+const material = new THREE.MeshDepthMaterial()
+
 
 const sphere = new THREE.Mesh(
   new THREE.SphereGeometry(0.5, 16, 16),
