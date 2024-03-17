@@ -23,7 +23,7 @@ const doorMetalnessTexture = textureLoader.load('./textures/door/metalness.jpg')
 const doorNormalTexture = textureLoader.load('./textures/door/normal.jpg')
 const doorRoughnessTexture = textureLoader.load('./textures/door/roughness.jpg')
 
-const matcapTexture = textureLoader.load('./textures/matcaps/1.png')
+const matcapTexture = textureLoader.load('./textures/matcaps/8.png')
 const gradientTexture = textureLoader.load('./textures/gradients/3.jpg')
 
 doorColorTexture.colorSpace = THREE.SRGBColorSpace
@@ -43,7 +43,16 @@ matcapTexture.colorSpace = THREE.SRGBColorSpace
 // material.side = THREE.DoubleSide
 
 //MeshNormalMaterial
-const material = new THREE.MeshNormalMaterial()
+// const material = new THREE.MeshNormalMaterial()
+// material.flatShading = true
+
+//MeshMatcapMaterial
+//for a good visual, and good performance
+//need a reference texture that looks like a sphere
+//it looks iluminated, but its an illusion created by the texture
+//the result is the same regarding the orientation -> we cant update the lights
+const material = new THREE.MeshMatcapMaterial()
+material.matcap = matcapTexture
 
 const sphere = new THREE.Mesh(
   new THREE.SphereGeometry(0.5, 16, 16),
