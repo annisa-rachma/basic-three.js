@@ -4,21 +4,27 @@ import GUI from "lil-gui";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 
-
 /**
  * Base
  */
 // Debug
-const gui = new GUI();
+// const gui = new GUI();
+const input = {
+  Text: "Hello",
+};
+// gui
+//     .add(input, "Text")
+//     .name("Custom")
+//     .onChange((value) => {
+//         input.Text = value 
+//         console.log(value);
+//     });
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
 
 // Scene
 const scene = new THREE.Scene();
-
-// console.log(scene);
-// scene.backgroundIntensity = 0.1
 
 /**
  * Textures
@@ -32,21 +38,26 @@ matcapTexture.colorSpace = THREE.SRGBColorSpace;
  * Fonts
  */
 const fontLoader = new FontLoader();
+const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
 
-
+let textGeometry;
 /**font loader */
+
 fontLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
-  const textGeometry = new TextGeometry("Hello ", {
-    font: font,
-    size: 0.5,
-    height: 0.2,
-    curveSegments: 5,
-    bevelEnabled: true,
-    bevelThickness: 0.03,
-    bevelSize: 0.02,
-    bevelOffset: 0,
-    bevelSegments: 4,
-  });
+    // let textGeometry
+    
+        textGeometry = new TextGeometry(input.Text, {
+          font: font,
+          size: 0.5,
+          height: 0.2,
+          curveSegments: 5,
+          bevelEnabled: true,
+          bevelThickness: 0.03,
+          bevelSize: 0.02,
+          bevelOffset: 0,
+          bevelSegments: 4,
+        });
+    
   // textGeometry.computeBoundingBox()
   // textGeometry.translate(
   //     - (textGeometry.boundingBox.max.x - 0.02) * 0.5,
@@ -60,37 +71,37 @@ fontLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
    */
 
   /**or simply, you can just use : */
-  textGeometry.center();
+  //   textGeometry.center();
 
-  const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
-  // textMaterial.wireframe = true
-  const text = new THREE.Mesh(textGeometry, material);
-  scene.add(text);
-
-  // console.time('donuts');
-  // const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 20, 45)
-  const donutGeometry = new THREE.OctahedronGeometry(0.1, 0);
-  // const donutMaterial = new THREE.MeshMatcapMaterial({matcap : matcapTexture})
-
-  for (let i = 0; i < 200; i++) {
-    const donut = new THREE.Mesh(donutGeometry, material);
-
-    donut.position.x = (Math.random() - 0.5) * 10;
-    donut.position.y = (Math.random() - 0.5) * 10;
-    donut.position.z = (Math.random() - 0.5) * 10;
-
-    donut.rotation.x = Math.random() * Math.PI;
-    donut.rotation.y = Math.random() * Math.PI;
-
-    const scale = Math.random();
-    donut.scale.x = scale;
-    donut.scale.y = scale;
-    donut.scale.z = scale;
-
-    scene.add(donut);
-  }
-  // console.timeEnd('donuts')
+    // textMaterial.wireframe = true
+    // console.log(textGeometry);
+    // console.log(input.Text);
+    const text = new THREE.Mesh(textGeometry, material);
+    scene.add(text);
 });
+
+const starGeo = new THREE.OctahedronGeometry(0.02, 0);
+
+// let star
+
+for (let i = 0; i < 3000; i++) {
+  const star = new THREE.Mesh(starGeo, material);
+
+  star.position.x = (Math.random() - 0.5) * 10;
+  star.position.y = (Math.random() - 0.5) * 10;
+  star.position.z = (Math.random() - 0.5) * 10;
+
+  star.rotation.x = Math.random() * Math.PI;
+  star.rotation.y = Math.random() * Math.PI;
+
+  const scale = Math.random();
+  star.scale.x = scale;
+  star.scale.y = scale;
+  star.scale.z = scale;
+
+  scene.add(star);
+}
+
 /**
  * creating a text geometry is hard for computer
  * keep the geometry as low poly as possible by reducing the curveSegments and bevelSegments
@@ -139,7 +150,7 @@ const camera = new THREE.PerspectiveCamera(
   75,
   sizes.width / sizes.height,
   0.1,
-  100
+  1000
 );
 camera.position.x = 1;
 camera.position.y = 1;
