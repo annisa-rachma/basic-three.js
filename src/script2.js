@@ -87,14 +87,14 @@ createText();
 /**or simply, you can just use : */
 //   textGeometry.center();
 
-const starGeo = new THREE.OctahedronGeometry(0.02, 0);
+const starGeo = new THREE.OctahedronGeometry(0.05, 0);
 const starGroup = new THREE.Group();
-for (let i = 0; i < 3000; i++) {
+for (let i = 0; i < 10000; i++) {
   const star = new THREE.Mesh(starGeo, material);
 
-  star.position.x = (Math.random() - 0.5) * 10;
-  star.position.y = (Math.random() - 0.5) * 10;
-  star.position.z = (Math.random() - 0.5) * 10;
+  star.position.x = (Math.random() - 0.5) * 45;
+  star.position.y = (Math.random() - 0.5) * 45;
+  star.position.z = (Math.random() - 0.5) * 45;
 
   star.rotation.x = Math.random() * Math.PI;
   star.rotation.y = Math.random() * Math.PI;
@@ -166,7 +166,7 @@ scene.add(camera);
 // Controls
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
-
+// controls.maxZoom = 1
 /**
  * Renderer
  */
@@ -184,8 +184,8 @@ const clock = new THREE.Clock();
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
 
-  starGroup.rotation.y += 0.0005
-  starGroup.rotation.x += 0.0005
+  starGroup.rotation.y += 0.0002
+  starGroup.rotation.x += 0.0002
 
   // Update controls
   controls.update();
