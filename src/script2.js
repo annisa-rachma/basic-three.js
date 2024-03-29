@@ -20,6 +20,10 @@ const scene = new THREE.Scene()
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
+const matcapTexture = textureLoader.load('/textures/matcaps/9.png')
+//texture use in map and matcap are supposed to be encoded in sRGB
+matcapTexture.colorSpace = THREE.SRGBColorSpace
+
 
 /**
  * Fonts
@@ -58,7 +62,8 @@ fontLoader.load(
         /**or simply, you can just use : */
         textGeometry.center()
 
-        const textMaterial =  new THREE.MeshBasicMaterial( {wireframe : true})
+        const textMaterial =  new THREE.MeshMatcapMaterial({matcap : matcapTexture})
+        // textMaterial.wireframe = true
         const text = new THREE.Mesh(textGeometry, textMaterial)
         scene.add(text)
     }
@@ -68,7 +73,7 @@ fontLoader.load(
  * keep the geometry as low poly as possible by reducing the curveSegments and bevelSegments
  */
 const axesHelper = new THREE.AxesHelper()
-scene.add(axesHelper)
+// scene.add(axesHelper)
 
 /**
  * Using Bounding 
