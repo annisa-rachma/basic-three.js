@@ -53,6 +53,7 @@ function createText() {
       bevelOffset: 0,
       bevelSegments: 4,
     });
+    textGeometry.center();
 
     text = new THREE.Mesh(textGeometry, material);
     scene.add(text);

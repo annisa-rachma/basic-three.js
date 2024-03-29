@@ -11,6 +11,7 @@ body {
 #formInput{
   position: absolute;
   z-index: 100;
+  text-align: center;
 }
 .webgl {
   position: fixed;
