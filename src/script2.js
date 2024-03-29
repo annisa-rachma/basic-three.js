@@ -3,13 +3,8 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import GUI from "lil-gui";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
-let formInput = document.querySelector('#formInput')
-let textInput = document.querySelector('#textInput')
-
-formInput.addEventListener('submit', (event) => {
-    event.preventDefault()
-    console.log(textInput.value);
-})
+let formInput = document.querySelector("#formInput");
+let textInput = document.querySelector("#textInput");
 
 /**
  * Base
@@ -40,49 +35,58 @@ matcapTexture.colorSpace = THREE.SRGBColorSpace;
 const fontLoader = new FontLoader();
 const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
 
-let textGeometry;
 /**font loader */
+let text;
 
-fontLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
+function createText() {
+  fontLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
     // let textGeometry
-    
-        textGeometry = new TextGeometry(input.Text, {
-          font: font,
-          size: 0.5,
-          height: 0.2,
-          curveSegments: 5,
-          bevelEnabled: true,
-          bevelThickness: 0.03,
-          bevelSize: 0.02,
-          bevelOffset: 0,
-          bevelSegments: 4,
-        });
-    
-  // textGeometry.computeBoundingBox()
-  // textGeometry.translate(
-  //     - (textGeometry.boundingBox.max.x - 0.02) * 0.5,
-  //     - (textGeometry.boundingBox.max.y - 0.02) * 0.5,
-  //     - (textGeometry.boundingBox.max.z - 0.03) * 0.5
-  // )
-  /**
-   * move the bounding box to the center, by translate it to half of it each axis
-   * but it's not precisely centered because of the bevel
-   * in order to centered it, we need to substract with bevel size and bevel thickness
-   */
 
-  /**or simply, you can just use : */
-  //   textGeometry.center();
+    let textGeometry = new TextGeometry(input.Text, {
+      font: font,
+      size: 0.5,
+      height: 0.2,
+      curveSegments: 5,
+      bevelEnabled: true,
+      bevelThickness: 0.03,
+      bevelSize: 0.02,
+      bevelOffset: 0,
+      bevelSegments: 4,
+    });
 
-    // textMaterial.wireframe = true
-    // console.log(textGeometry);
-    // console.log(input.Text);
-    const text = new THREE.Mesh(textGeometry, material);
+    text = new THREE.Mesh(textGeometry, material);
     scene.add(text);
+  });
+}
+
+formInput.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  scene.remove(text);
+
+  input.Text = textInput.value;
+
+  createText();
 });
 
-const starGeo = new THREE.OctahedronGeometry(0.02, 0);
+createText();
 
-// let star
+// textGeometry.computeBoundingBox()
+// textGeometry.translate(
+//     - (textGeometry.boundingBox.max.x - 0.02) * 0.5,
+//     - (textGeometry.boundingBox.max.y - 0.02) * 0.5,
+//     - (textGeometry.boundingBox.max.z - 0.03) * 0.5
+// )
+/**
+ * move the bounding box to the center, by translate it to half of it each axis
+ * but it's not precisely centered because of the bevel
+ * in order to centered it, we need to substract with bevel size and bevel thickness
+ */
+
+/**or simply, you can just use : */
+//   textGeometry.center();
+
+const starGeo = new THREE.OctahedronGeometry(0.02, 0);
 
 for (let i = 0; i < 3000; i++) {
   const star = new THREE.Mesh(starGeo, material);
