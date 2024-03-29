@@ -3,6 +3,13 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import GUI from "lil-gui";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
+let formInput = document.querySelector('#formInput')
+let textInput = document.querySelector('#textInput')
+
+formInput.addEventListener('submit', (event) => {
+    event.preventDefault()
+    console.log(textInput.value);
+})
 
 /**
  * Base
@@ -12,13 +19,6 @@ import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 const input = {
   Text: "Hello",
 };
-// gui
-//     .add(input, "Text")
-//     .name("Custom")
-//     .onChange((value) => {
-//         input.Text = value 
-//         console.log(value);
-//     });
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
