@@ -43,6 +43,18 @@ fontLoader.load(
                 bevelSegments : 4
             }
         )
+        textGeometry.computeBoundingBox()
+        textGeometry.translate(
+            - (textGeometry.boundingBox.max.x - 0.02) * 0.5,
+            - (textGeometry.boundingBox.max.y - 0.02) * 0.5,
+            - (textGeometry.boundingBox.max.z - 0.03) * 0.5
+        )
+        /**
+         * move the bounding box to the center, by translate it to half of it each axis
+         * but it's not precisely centered because of the bevel
+         * in order to centered it, we need to substract with bevel size and bevel thickness
+         */
+
         const textMaterial =  new THREE.MeshBasicMaterial( {wireframe : true})
         const text = new THREE.Mesh(textGeometry, textMaterial)
         scene.add(text)
@@ -57,6 +69,13 @@ scene.add(axesHelper)
 
 /**
  * Using Bounding 
+ * bounding is an information associated with the geometry that tells what space is taken by thhat geometry (kaya kotak/lingkarang mengelilingi object tersebut)
+ * 
+ * it helps three.js calculate if the object is on the screen(frustum culling)
+ * frustum culling -> rendering or not rendering the object, if the object is behinf the camer it wont be rendered, same as when the object is behind another bigger object, it wont show on the camera
+ * 
+ * we can use it to recenter the geometry
+ * by default, three.js using sphere bounding 
  */
 
 /**
