@@ -88,7 +88,7 @@ createText();
 //   textGeometry.center();
 
 const starGeo = new THREE.OctahedronGeometry(0.02, 0);
-
+const starGroup = new THREE.Group();
 for (let i = 0; i < 3000; i++) {
   const star = new THREE.Mesh(starGeo, material);
 
@@ -100,12 +100,13 @@ for (let i = 0; i < 3000; i++) {
   star.rotation.y = Math.random() * Math.PI;
 
   const scale = Math.random();
-  star.scale.x = scale;
-  star.scale.y = scale;
-  star.scale.z = scale;
+  star.scale.set(scale, scale, scale);
 
-  scene.add(star);
+  starGroup.add(star);
+//   scene.add(star);
 }
+
+scene.add(starGroup);
 
 /**
  * creating a text geometry is hard for computer
@@ -182,6 +183,9 @@ const clock = new THREE.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
+
+  starGroup.rotation.y += 0.0005
+  starGroup.rotation.x += 0.0005
 
   // Update controls
   controls.update();
