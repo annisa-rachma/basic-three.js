@@ -77,6 +77,23 @@ body {
 #formInput button:hover {
   background: radial-gradient(circle, rgb(112, 60, 147) 0%, rgb(29, 76, 134) 100%);
 }
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  #formInput{
+    width: 150px;
+    height: 60px;
+  }
+  #textInput{
+    width: 100% - 16px;
+    height: 20px;
+    font-size: 10px;
+  }
+  #formInput button {
+    width: 100%;
+    height: 40px;
+    font-size: 10px;
+  }
+}
 .webgl {
   position: fixed;
   top: 0;
