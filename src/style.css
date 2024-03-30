@@ -8,9 +8,32 @@ body {
   /* background: rgb(63,94,251);
   background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%); */
 }
+#textIcon {
+  position: absolute;
+  cursor: pointer;
+  z-index: 100;
+  height: 60px;
+  width: 60px;
+  margin-left: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  color: #376d9f;
+  font-weight: 800;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  background: rgb(248, 190, 215);
+  background: radial-gradient(circle, rgb(241, 182, 208) 0%, rgba(148,187,233,1) 100%);
+}
+#textIcon:hover {
+  background: rgb(226,159,189);
+  background: radial-gradient(circle, rgba(226,159,189,1) 0%, rgba(128,167,215,1) 100%);
+}
 #formInput{
   position: absolute;
-  z-index: 100;
+  z-index: 50;
   text-align: center;
 }
 .webgl {
