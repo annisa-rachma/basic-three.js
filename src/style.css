@@ -17,24 +17,64 @@ body {
   margin-left: 20px;
   margin-top: 20px;
   border-radius: 8px;
-  color: #376d9f;
+  color: white;
   font-weight: 800;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 32px;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  background: rgb(248, 190, 215);
-  background: radial-gradient(circle, rgb(241, 182, 208) 0%, rgba(148,187,233,1) 100%);
+  background: rgb(226,159,189);
+  background: radial-gradient(circle, rgba(226,159,189,0.8) 0%, rgba(128,167,215,0.8) 100%);
+  box-shadow:  5px 5px 20px #3e3f6e;
+  
 }
 #textIcon:hover {
-  background: rgb(226,159,189);
-  background: radial-gradient(circle, rgba(226,159,189,1) 0%, rgba(128,167,215,1) 100%);
+  color: white;
+  background: rgb(213, 144, 175);
+  background: radial-gradient(circle, rgb(223, 154, 184) 0%, rgb(121, 161, 210) 100%);
 }
 #formInput{
   position: absolute;
-  z-index: 50;
-  text-align: center;
+  z-index: 100;
+  margin-left: 90px;
+  margin-top: 16px;
+  width: 300px;
+  height: 80px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  /* background: rgba(226,159,189, 0.8); */
+  background: radial-gradient(circle, rgba(226,159,189,0.8) 0%, rgba(128,167,215,0.8) 100%);
+  border-radius: 8px;
+  box-shadow:  5px 5px 20px #282948;
+  
+}
+#textInput{
+  width: 100% - 16px;
+  height: 32px;
+  border-radius: 8px;
+  border-style: none;
+  padding: 8px;
+  font-size: 14px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: rgb(38, 91, 156);
+}
+#formInput button {
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  border-style: none;
+  cursor: pointer;
+  color: white;
+  /* background: rgba(226,159,189, 0.8);  */
+  background: radial-gradient(circle, rgb(128, 72, 158) 0%, rgb(38, 91, 156) 100%);
+  font-size: 14px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+#formInput button:hover {
+  background: radial-gradient(circle, rgb(112, 60, 147) 0%, rgb(29, 76, 134) 100%);
 }
 .webgl {
   position: fixed;
