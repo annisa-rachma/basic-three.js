@@ -8,7 +8,7 @@ body {
   /* background: rgb(63,94,251);
   background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%); */
 }
-#textIcon {
+/* #textIcon {
   position: absolute;
   cursor: pointer;
   z-index: 100;
@@ -33,12 +33,13 @@ body {
   color: white;
   background: rgb(213, 144, 175);
   background: radial-gradient(circle, rgb(223, 154, 184) 0%, rgb(121, 161, 210) 100%);
-}
+} */
 #formInput{
   position: absolute;
   z-index: 100;
-  margin-left: 90px;
-  margin-top: 16px;
+  right: 0;
+  margin-right: 20px;
+  margin-top: 20px;
   width: 300px;
   height: 80px;
   padding: 8px;
